@@ -1,0 +1,85 @@
+STEP1
+jdk 8u022
+
+STEP2
+set system variable
+->new
+-> vairiable name-> JAVA_HOME
+
+STEP3
+python 310
+
+STEP4
+INSTALL CASSANDRA 3.11.10
+EXTRACT
+
+step5
+set system variable
+->new
+-> vairiable name-> CASSANRA_HOME
+set path of cassandra bin
+go to cassanra bin
+enter cmd 
+->cassandra
+
+step6
+go to bin folder of cassandra
+new terminal->
+conda activate py2
+cqlsh
+
+step7
+--creating keyspace
+CREATE KEYSPACE IF NOT EXISTS demo2 WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : '1' };
+
+--creating table
+CREATE TABLE IF NOT EXISTS demo2.users (
+id int PRIMARY KEY,
+name text,
+email text
+);
+
+
+INSERT INTO demo2.users
+(id, name, email)
+VALUES (1,'Raj','rajdalvi@gmail.com');
+
+step8
+run cassandra gui file
+
+
+
+
+
+###################
+open anaconda promp
+
+conda activate py2
+cassandra -f
+
+go to bin folder of cassandra
+new terminal->
+conda activate py2
+cqlsh
+###################
+
+
+
+MATCH (o:Office {city: 'Malmo'})
+MATCH (t:TrainStation {city : 'Copenhagen'})
+RETURN o, t
+ORDER BY point.distance(o.location, t.location)
+LIMIT 100
+
+MATCH (t:TrainStation {city: 'Copenhagen'})
+MATCH (o:Office {city : 'Malmo'})
+RETURN t, o
+ORDER BY point.distance(t.location, o.location)
+LIMIT 50
+
+MATCH (o1: Office {city: 'Malmo'})
+MATCH (o2: Office {city: 'Malmo'})
+WHERE o1 <> o2
+RETURN o1, o2
+ORDER BY point.distance(o1.location, o2.location)
+LIMIT 50
