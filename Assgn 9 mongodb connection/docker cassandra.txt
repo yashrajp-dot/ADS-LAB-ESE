@@ -1,0 +1,59 @@
+docker network create cassandra
+
+docker run --rm -d --name cassandra --hostname cassandra --network cassandra cassandra
+
+docker run --rm --network cassandra -v "$(pwd)/data.cql:/scripts/data.cql" -e CQLSH_HOST=cassandra -e CQLSH_PORT=9042 -e CQLVERSION=3.4.6 nuvo/docker-cqlsh
+
+docker run --rm -it --network cassandra nuvo/docker-cqlsh cqlsh cassandra 9042 --cqlversion='3.4.6'
+
+//to insert multiline data
+
+cat >> filename.txt <<EOL
+
+
+EOL
+
+ip:172.17.0.2
+
+{
+  "clientID": "jRZTLHliyWRDAcqwPamtFDvl"
+  "clientSecret": "G20iGJqwCvT0HOlY,63Ij522rZz8P6Zopzce60UEv3cf-_wG,NZ,9eZkZyOw_PzebDm_+sQggI4Rap5vEgxqncmSZoQMwubT7JJQw7O--BfxSKwnoRKBT9GC,Z4hQqQ4"
+  "token": "AstraCS:jRZTLHliyWRDAcqwPamtFDvl:0bdcb51fb120c452b2f924b0bfd0a40c3c00fa0905958e5633b1ab2914c20629"
+}
+
+
+--creating keyspace
+CREATE KEYSPACE IF NOT EXISTS demo2 WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : '1' };
+
+--creating table
+CREATE TABLE IF NOT EXISTS demo2.users (
+id int PRIMARY KEY,
+name text,
+email text
+);
+
+
+INSERT INTO demo2.users
+(id, name, email)
+VALUES (1,'Yashraj','yashrajpatil056@gmail.com');
+
+
+docker run --rm --network cassandra -v "/home/raj/cassandra/data.cql:/scripts/data.cql" -e CQLSH_HOST=cassandra -e CQLSH_PORT=9042 -e CQLVERSION=3.4.6 nuvo/docker-cqlsh
+
+CREATE USER rajd27 WITH PASSWORD 'rajd7038' SUPERUSER;
+CREATE ROLE IF NOT EXISTS rajd27 WITH PASSWORD = 'raj7038' LOGIN = true ;
+
+
+
+CREATE KEYSPACE IF NOT EXISTS demo WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : '4' };
+
+CREATE TABLE demo.users (
+    lastname text PRIMARY KEY,
+    age int ,
+    city text,
+    email text,
+     firstname text,
+);
+
+cassandra.bat -h
+ 

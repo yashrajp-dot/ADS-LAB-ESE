@@ -1,0 +1,24 @@
+.navbar {
+    height: 100px;
+    font-size: 1.2rem;
+    padding: 10px 50px;
+}
+
+.nav-link {
+    border-bottom: 2px solid transparent;
+  }
+  
+  .nav-link:hover {
+    border-bottom: 2px solid rgb(0, 0, 0);
+  }
+
+  .navbar {
+    font-size: 1.5rem; /* Increase the font size */
+    padding-top: 1rem; /* Add some padding to the top */
+    padding-bottom: 1rem; /* Add some padding to the bottom */
+  }
+  
+  .navbar-brand {
+    font-size: 2rem; /* Make the Quiz App text larger */
+    font-weight: bold; /* Add some boldness to the text */
+  }

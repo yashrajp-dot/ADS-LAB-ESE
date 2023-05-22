@@ -1,0 +1,146 @@
+create table test_table(
+RecordNumber number (3),
+CurrentDate date
+);
+
+Declare
+i number (3);
+begin
+for i in 1..50
+LOOP
+insert into test_table values (i, sysdate);
+END LOOP;
+END;
+------------------------------------------------------------------------------
+
+Create table products (
+ProductID number (4) primary key,
+category char (3),
+detail varchar2 (20),
+price number (10,2),
+stock number (5)
+);
+
+
+insert into products values (11, 'a', 'cloths', 3210, 15);
+insert into products values (12, 'b', 'grocery', 8350,5);
+insert into products values (13, 'c', 'elctronic', 650,4);
+insert into products values (14, 'd', 'mobiles', 800, 10);
+insert into products values (15, 'e', 'travel', 1600, 10);
+
+
+
+set serveroutput on;
+CREATE OR REPLACE procedure increase_price(x in number, y in char)
+as
+begin
+    update products set
+    price=price+price* (x/100) where category=y;
+end;
+
+execute increase_price(20,'a');
+execute increase_price(20,'b');
+execute increase_price(20,'c');
+execute increase_price(20,'d');
+execute increase_price(20,'e');
+
+-----------------------------------------
+
+set serveroutput on;
+create or replace TYPE name_object as object ( 
+    person_name varchar2 (50),
+    member function countNoOfWords
+    return number
+) not final;
+
+
+set serveroutput on;
+create or replace type body name_object as
+member function countNoOfWords return number is 
+    begin
+        DBMS_OUTPUT.PUT_LINE('LENGTH');
+        return length (person_name)-length (replace(person_name,' ',''))+1;
+    end;
+end;
+
+
+
+
+
+create table person_table( 
+    person_name name_object
+);
+
+insert into person_table values (name_object('Saurabh Khadsang'));
+select P.person_name.countNoOfWords() from person_table P;
+
+
+--------------------------------------------
+
+
+create or replace type address_type as object (
+    city varchar2 (40),
+    state_ varchar2 (40),
+    pincode number (6),
+    member function getCity return varchar2,
+    member function getState return varchar2,
+    member function getPincode return number, 
+    member function getNoOfWords (str varchar2) return number
+) not final;
+
+
+create or replace type body address_type is 
+    member function getCity return varchar2 is
+    begin
+        return city;
+    end;
+
+    member function getPincode return number is
+    begin
+        return pincode;
+    end;
+
+    member function getState return varchar2 is    
+    begin
+        return state_;
+    end;
+
+    member function getNoOfWords (str varchar2) return number is
+    begin
+        return length (str);
+    end;
+end;
+
+
+create table addresses( 
+    person_address address_type
+);
+
+insert into addresses values (address_type ('chandrapur', 'Maharashtra', 441206));
+insert into addresses values (address_type ('Nagpur', 'Maharashtra', 440000));
+
+select p.person_address.getCity () from addresses p;
+select p.person_address.getState() from addresses p;
+select p.person_address.getPincode () from addresses p;
+select p.person_address.getNoOfWords (p.person_address.getCity()) from addresses p;
+
+-----------------------------------------
+
+
+create or replace type course_type as object ( 
+    course_id number (10),
+    description varchar2 (100)
+);
+
+create table course_table(
+    course course_type
+);
+
+insert into course_table values (course_type (1, 'course1'));
+insert into course_table values (course_type (2, 'course2'));
+insert into course_table values (course_type (3, 'course3'));
+insert into course_table values (course_type (4, 'course4'));
+insert into course_table values (course_type (5, 'course5'));
+
+select * from course_table;
+select ct.course.course_id, ct.course.description from course_table ct;
